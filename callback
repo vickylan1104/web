@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>FB登入成功</title>
+</head>
+<body>
+<h2>登入成功～</h2>
+
+<div id="userinfo"></div>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '你的AppID',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v19.0'
+    });
+
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        FB.api('/me', {fields: 'name,email'}, function(userInfo) {
+          document.getElementById('userinfo').innerHTML = `
+            <p>姓名：${userInfo.name}</p>
+            <p>Email：${userInfo.email}</p>
+          `;
+        });
+      } else {
+        location.href = 'index.html';
+      }
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+</body>
+</html>
